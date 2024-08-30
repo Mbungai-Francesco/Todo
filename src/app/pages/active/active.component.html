@@ -1,0 +1,4 @@
+<p>active</p>
+@for (item of list; track $index) {
+  <app-list [list]="item.name" [checked]="item.completed" [num]="$index"></app-list>
+}

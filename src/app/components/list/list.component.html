@@ -9,8 +9,8 @@
     }
   </div>
   @if(checked){
-    <p class="text-lg text-myDarkBlue-300 font-semibold line-through">{{list}}</p>
+    <p class="text-lg text-myDarkBlue-300 font-semibold line-through">{{todos[this.num].name}}</p>
   }@else{
-    <p class="text-lg text-myDarkBlue-300 font-semibold">{{list}}</p>
+    <p class="text-lg text-myDarkBlue-300 font-semibold">{{todos[this.num].name}}</p>
   }
 </div>

@@ -1,27 +1,37 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { LucideAngularModule, Sun } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
-import { ListComponent } from './list/list.component';
+import { ListComponent } from './components/list/list.component';
+import { Todo } from './types/todo';
+import { TodoService } from './services/todo.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, LucideAngularModule, ButtonModule, ListComponent],
+  imports: [RouterOutlet, RouterLink, LucideAngularModule, ButtonModule, ListComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent {
   title = 'Todo';
-  list : string[] = []
+  list: Todo[] = [];
+  // sideList: Todo[] = [];
   readonly icons = { Sun };
+
+  constructor(private todoService: TodoService){}
 
   onEnter = (event: KeyboardEvent) => {
     if (event.key.toLocaleLowerCase() === 'enter') {
       const inputElement = event.target as HTMLInputElement;
       const newValue = inputElement.value.trim();
       if (newValue) {
-        this.list.push(newValue);
+        this.list.push({
+          num: this.list.length,
+          name: newValue,
+          completed: false,
+        });
+        this.todoService.setTodos(this.list)
         inputElement.value = ''
       }
     }

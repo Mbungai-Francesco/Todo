@@ -1,0 +1,4 @@
+<p>all</p>
+@for (item of todos; track $index) {
+  <app-list [list]="item.name" [checked]="item.completed" [num]="$index"></app-list>
+}

@@ -24,15 +24,15 @@
       </div>
     </div>
     <div class="bg-myDarkBlue-600">
-      @for (item of list; track $index) {
-      <app-list [list]="item"></app-list>
-      }
+      <div>
+        <router-outlet></router-outlet>
+      </div>
       <div class="text-myDarkBlue-300 flex justify-between py-4 px-3">
         <p>{{ list.length }} items left</p>
-        <div class="flex space-x-3 cursor-pointer">
-          <p>All</p>
-          <p>Active</p>
-          <p>Completed</p>
+        <div class="flex space-x-3 cursor-pointer font-semibold">
+          <p class="hover:text-myBlue-200" routerLink="/">All</p>
+          <p class="hover:text-myBlue-200" routerLink="/active">Active</p>
+          <p class="hover:text-myBlue-200">Completed</p>
         </div>
         <p>Clear Completed</p>
       </div>
