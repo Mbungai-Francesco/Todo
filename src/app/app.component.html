@@ -2,10 +2,40 @@
   <div>
     <img [src]="'images/bg-desktop-dark.jpg'" alt="" />
   </div>
-  <div class="absolute h-40 w-1/2 bg-black top-[15%]">
-    <div class="flex justify-between">
-      <p class="text-white text-4xl font-bold uppercase tracking-widest">Todo</p>
+  <div class="absolute h-40 w-1/2 top-[15%] space-y-6">
+    <div class="flex justify-between mb-10">
+      <p class="text-white text-4xl font-bold uppercase tracking-widest">
+        Todo
+      </p>
       <lucide-icon [name]="icons.Sun" color="white" size="30"></lucide-icon>
+    </div>
+    <div>
+      <div class="bg-myDarkBlue-600 p-4 flex items-center">
+        <div
+          class="w-6 aspect-square border rounded-full mr-4 opacity-25"
+        ></div>
+        <input
+          type="text"
+          pInputText
+          class="w-full bg-transparent self-center text-lg outline-none text-myDarkBlue-300 font-semibold"
+          placeholder="Create a new todo"
+          (keydown)="onEnter($event)"
+        />
+      </div>
+    </div>
+    <div class="bg-myDarkBlue-600">
+      @for (item of list; track $index) {
+      <app-list [list]="item"></app-list>
+      }
+      <div class="text-myDarkBlue-300 flex justify-between py-4 px-3">
+        <p>{{ list.length }} items left</p>
+        <div class="flex space-x-3 cursor-pointer">
+          <p>All</p>
+          <p>Active</p>
+          <p>Completed</p>
+        </div>
+        <p>Clear Completed</p>
+      </div>
     </div>
   </div>
 </div>

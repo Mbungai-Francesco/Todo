@@ -1,1 +1,16 @@
-<p>list works!</p>
+<div class="border-b border-b-myDarkBlue-300 py-4 px-3 flex cursor-pointer" (click)="clickHandler()">
+  <div>
+    @if(checked){
+      <div class="w-6 aspect-square border rounded-full mr-4 border-myDarkBlue-300 flex justify-center items-center myCheck">
+        <lucide-icon [name]="icons.Check" color="white" size="13"></lucide-icon>
+      </div>
+    }@else {
+      <div class="w-6 aspect-square border rounded-full mr-4 opacity-25"></div>
+    }
+  </div>
+  @if(checked){
+    <p class="text-lg text-myDarkBlue-300 font-semibold line-through">{{list}}</p>
+  }@else{
+    <p class="text-lg text-myDarkBlue-300 font-semibold">{{list}}</p>
+  }
+</div>
