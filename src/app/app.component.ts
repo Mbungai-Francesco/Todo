@@ -1,43 +1,62 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
-import { LucideAngularModule, Sun } from 'lucide-angular';
+import {
+  RouterLink,
+  RouterOutlet,
+  ActivatedRoute,
+  Router,
+} from '@angular/router';
+import { LucideAngularModule, Sun, Moon } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
 import { ListComponent } from './components/list/list.component';
 import { Todo } from './types/todo';
 import { TodoService } from './services/todo.service';
-import { AllComponent } from './pages/all/all.component';
-import { ActiveComponent } from './pages/active/active.component';
-import { CompletedComponent } from './pages/completed/completed.component';
 import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, LucideAngularModule, ButtonModule, ListComponent],
+  imports: [
+    RouterOutlet,
+    RouterLink,
+    LucideAngularModule,
+    ButtonModule,
+    ListComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent {
+  currentTheme = 'dark';
+  currentRoute = '';
 
-  currentTheme = 'light';
+  getRoute = () => {
+    this.router.events.subscribe(() => {
+      this.currentRoute = this.router.url.split('/')[1].toLocaleLowerCase();
+    });
+    console.log(this.currentRoute);
+  };
 
   title = 'Todo';
   list: Todo[] = [];
-  // sideList: Todo[] = [];
-  readonly icons = { Sun };
+  readonly icons = { Sun, Moon };
 
-  constructor(private todoService: TodoService, private themeService: ThemeService){}
+  constructor(
+    private todoService: TodoService,
+    private themeService: ThemeService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-    this.themeService.theme$.subscribe(theme => {
+    this.themeService.theme$.subscribe((theme) => {
       this.currentTheme = theme;
     });
+    this.getRoute()
   }
 
   toggleTheme() {
-    const newTheme = this.currentTheme === 'light' ? 'dark' : 'light';
-    console.log(newTheme);
-    this.themeService.setTheme(newTheme);
+    this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+    this.themeService.setTheme(this.currentTheme);
   }
 
   onEnter = (event: KeyboardEvent) => {
@@ -50,14 +69,14 @@ export class AppComponent {
           name: newValue,
           completed: false,
         });
-        this.todoService.setTodos(this.list)
-        inputElement.value = ''
+        this.todoService.setTodos(this.list);
+        inputElement.value = '';
       }
     }
-  }
+  };
 
-  delAll = () =>{
+  delAll = () => {
     this.list = [];
-    this.todoService.setTodos(this.list)
-  }
+    this.todoService.setTodos(this.list);
+  };
 }
