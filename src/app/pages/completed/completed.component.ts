@@ -1,28 +1,30 @@
 import { Component } from '@angular/core';
-import { Todo } from '../../types/todo';
 import { TodoService } from '../../services/todo.service';
+import { Todo } from '../../types/todo';
 import { ListComponent } from "../../components/list/list.component";
 
 @Component({
-  selector: 'app-all',
+  selector: 'app-completed',
   standalone: true,
   imports: [ListComponent],
-  templateUrl: './all.component.html',
-  styleUrl: './all.component.css'
+  templateUrl: './completed.component.html',
+  styleUrl: './completed.component.css'
 })
-export class AllComponent {
+export class CompletedComponent {
 
   getList = () =>{
     this.todoService.todos$.subscribe((todos) => {
-      this.todos = todos
+      this.list = todos.filter((todo) => todo.completed);
     });
-    // console.log(this.todos); 
+    // console.log(this.list); 
   }
 
   constructor(private todoService: TodoService){}
-  
+
   ngOnInit(){
     this.getList()
   }
-  todos : Todo[] = []
+
+  list: Todo[] = [];
+
 }

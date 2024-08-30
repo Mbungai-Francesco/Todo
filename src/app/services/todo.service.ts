@@ -11,17 +11,16 @@ export class TodoService {
 
   todosDb?: string | null;
   constructor() { 
-    // this.todosDb = localStorage.getItem('todos');
-    // if (this.todosDb) {
-    //   this.todos = JSON.parse(this.todosDb);
-    // } else {
-    //   this.todos = [];
-    //   localStorage.setItem('todos', JSON.stringify(this.todos));
-    // }
+    this.todosDb = localStorage.getItem('todos');
+    if (this.todosDb) {
+      this.todosSubject.next(JSON.parse(this.todosDb))
+    } else {
+      localStorage.setItem('todos', JSON.stringify([]));
+    }
   }
 
   setTodos(todos: Todo[]) {
     this.todosSubject.next(todos)
-    // localStorage.setItem('todos', JSON.stringify(this.todos
+    localStorage.setItem('todos', JSON.stringify(todos))
   }
 }

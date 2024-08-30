@@ -5,6 +5,10 @@ import { ButtonModule } from 'primeng/button';
 import { ListComponent } from './components/list/list.component';
 import { Todo } from './types/todo';
 import { TodoService } from './services/todo.service';
+import { AllComponent } from './pages/all/all.component';
+import { ActiveComponent } from './pages/active/active.component';
+import { CompletedComponent } from './pages/completed/completed.component';
+import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -14,12 +18,27 @@ import { TodoService } from './services/todo.service';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
+
+  currentTheme = 'light';
+
   title = 'Todo';
   list: Todo[] = [];
   // sideList: Todo[] = [];
   readonly icons = { Sun };
 
-  constructor(private todoService: TodoService){}
+  constructor(private todoService: TodoService, private themeService: ThemeService){}
+
+  ngOnInit() {
+    this.themeService.theme$.subscribe(theme => {
+      this.currentTheme = theme;
+    });
+  }
+
+  toggleTheme() {
+    const newTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+    console.log(newTheme);
+    this.themeService.setTheme(newTheme);
+  }
 
   onEnter = (event: KeyboardEvent) => {
     if (event.key.toLocaleLowerCase() === 'enter') {
@@ -35,5 +54,10 @@ export class AppComponent {
         inputElement.value = ''
       }
     }
-  };
+  }
+
+  delAll = () =>{
+    this.list = [];
+    this.todoService.setTodos(this.list)
+  }
 }

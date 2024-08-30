@@ -12,12 +12,17 @@ import { ListComponent } from "../../components/list/list.component";
 })
 export class ActiveComponent {
 
+  getList = () =>{
+    this.todoService.todos$.subscribe((todos) => {
+      this.list = todos.filter((todo) => !todo.completed);
+    });
+    // console.log(this.list); 
+  }
+
   constructor(private todoService: TodoService){}
 
   ngOnInit(){
-    this.todoService.todos$.subscribe((todos) => {
-      this.list = todos.filter((todo) => !todo.completed);
-    })
+    this.getList()
   }
 
   list: Todo[] = [];

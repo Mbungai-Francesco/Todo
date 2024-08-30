@@ -16,6 +16,8 @@ export class ListComponent {
   getTodos = () =>{
     this.todoService.todos$.subscribe((todos) => {
       this.todos = todos;
+      this.list = this.todos[this.num].name;
+      this.checked = this.todos[this.num].completed;
     });
   }
 
@@ -25,22 +27,20 @@ export class ListComponent {
 
   readonly icons = { Check };
   @Input({ required: true }) num : number = 0;
-  @Input({ required: true }) checked?: boolean;
-  @Input({ required: true }) list?: string;
+  checked?: boolean;
+  list?: string;
   todos: Todo[] = [];
   checkClass = this.checked
     ? 'w-6 aspect-square border rounded-full mr-4 border-myDarkBlue-300 flex justify-center items-center myCheck'
     : 'w-6 aspect-square border rounded-full mr-4 border-myDarkBlue-300 flex justify-center items-center';
 
   clickHandler = () => {
-    console.log(this.num, this.list, this.checked);
-    if (this.num && this.list) {
-      this.todos[this.num] = {
-        num: this.num,
-        name: this.list,
-        completed: !this.checked,
-      };
-      this.checked = !this.checked;
+    this.getTodos()
+    if (this.num>=0 && this.list) {
+      console.log(this.num, this.list, this.checked);
+      console.log(this.todos[this.num]);
+      this.todos[this.num].completed = !this.todos[this.num].completed,
+      this.todoService.setTodos(this.todos);
       this.getTodos()
     }
   };
