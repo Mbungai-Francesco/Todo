@@ -16,7 +16,7 @@ export class AllComponent {
     this.todoService.todos$.subscribe((todos) => {
       this.todos = todos
     });
-    // console.log(this.todos); 
+    console.log(this.todos); 
   }
 
   constructor(private todoService: TodoService){}

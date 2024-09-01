@@ -11,19 +11,17 @@
         <lucide-icon [name]=" this.currentTheme === 'light' ? icons.Moon : icons.Sun " color="white" size="30"></lucide-icon>
       </div>
     </div>
-    <div>
-      <div class="dark:bg-myDarkBlue-600 p-4 flex items-center bg-white rounded-lg">
-        <div
-          class="w-6 aspect-square border rounded-full mr-4 dark:opacity-25 border-myDarkBlue-500 dark:border-myDarkBlue-300"
-        ></div>
-        <input
-          type="text"
-          pInputText
-          class="w-full bg-transparent self-center text-lg outline-none text-myDarkBlue-300 font-semibold"
-          placeholder="Create a new todo..."
-          (keydown)="onEnter($event)"
-        />
-      </div>
+    <div class="dark:bg-myDarkBlue-600 p-4 flex items-center bg-white rounded-lg shadow-lg">
+      <div
+        class="w-6 aspect-square border rounded-full mr-4 dark:opacity-25 border-myDarkBlue-500 dark:border-myDarkBlue-300"
+      ></div>
+      <input
+        type="text"
+        pInputText
+        class="w-full bg-transparent self-center text-lg outline-none text-myDarkBlue-300 font-semibold"
+        placeholder="Create a new todo..."
+        (keydown)="onEnter($event)"
+      />
     </div>
     <div class="dark:bg-myDarkBlue-600 bg-white rounded-lg shadow-md">
       <div>
@@ -37,7 +35,7 @@
           <p class="hover:text-myBlue-200" [class]="currentRoute == 'completed' ? 'text-myBlue-200' : '' " routerLink="/completed">Completed</p>
         </div>
         <p class="hover:text-myBlue-200 cursor-pointer font-semibold"
-        (click)="delAll()">Clear Completed</p>
+        (click)="delCompleted()">Clear Completed</p>
       </div>
     </div>
   </div>

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { LucideAngularModule, Check } from 'lucide-angular';
+import { LucideAngularModule, Check, Trash2 } from 'lucide-angular';
 import { TodoService } from '../../services/todo.service';
 import { Todo } from '../../types/todo';
 
@@ -15,18 +15,23 @@ export class ListComponent {
 
   getTodos = () =>{
     this.todoService.todos$.subscribe((todos) => {
-      this.todos = todos;
-      this.list = this.todos[this.num].name;
-      this.checked = this.todos[this.num].completed;
+      for (const todo of todos) {
+        if(todo.num == this.num){
+          this.list = todo.name
+          this.checked = todo.completed
+        }
+      }
+      this.todos = todos
     });
   }
 
   ngOnInit() {
+    console.log(this.num);   
     this.getTodos()
   }
 
-  readonly icons = { Check };
-  @Input({ required: true }) num : number = 0;
+  readonly icons = { Check, Trash2 };
+  @Input({ required: true }) num : number = 1;
   checked?: boolean;
   list?: string;
   todos: Todo[] = [];
@@ -39,9 +44,19 @@ export class ListComponent {
     if (this.num>=0 && this.list) {
       console.log(this.num, this.list, this.checked);
       console.log(this.todos[this.num]);
-      this.todos[this.num].completed = !this.todos[this.num].completed,
+      this.todos.filter((todo) =>{
+        if(todo.num == this.num){
+          todo.completed = !todo.completed
+        }
+        return todo
+      });
       this.todoService.setTodos(this.todos);
       this.getTodos()
     }
   };
+
+  delTodo = () => {
+    const newTodos = this.todos.filter((todo) => todo.num != this.num);
+    this.todoService.setTodos(newTodos);
+  }
 }

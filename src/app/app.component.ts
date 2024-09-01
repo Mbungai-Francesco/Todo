@@ -28,17 +28,24 @@ import { ThemeService } from './services/theme.service';
 export class AppComponent {
   currentTheme = 'dark';
   currentRoute = '';
+  title = 'Todo';
+  list: Todo[] = [];
+  // left = 0
+  readonly icons = { Sun, Moon };
 
   getRoute = () => {
     this.router.events.subscribe(() => {
       this.currentRoute = this.router.url.split('/')[1].toLocaleLowerCase();
     });
-    console.log(this.currentRoute);
+    // console.log(this.currentRoute);
   };
 
-  title = 'Todo';
-  list: Todo[] = [];
-  readonly icons = { Sun, Moon };
+  getTodos = () =>{
+    this.todoService.todos$.subscribe((todos) =>{
+      this.list = todos
+    })
+    // this.list.filter((todo) => !todo.completed ? this.left++ : this.left)
+  }
 
   constructor(
     private todoService: TodoService,
@@ -52,6 +59,7 @@ export class AppComponent {
       this.currentTheme = theme;
     });
     this.getRoute()
+    this.getTodos()
   }
 
   toggleTheme() {
@@ -64,19 +72,25 @@ export class AppComponent {
       const inputElement = event.target as HTMLInputElement;
       const newValue = inputElement.value.trim();
       if (newValue) {
+        const len = this.list.length;
         this.list.push({
-          num: this.list.length,
+          num: len == 0 ? 0 : this.list[len - 1].num + 1,
           name: newValue,
           completed: false,
         });
+        console.log(this.list);
+        
         this.todoService.setTodos(this.list);
         inputElement.value = '';
       }
     }
   };
 
-  delAll = () => {
-    this.list = [];
-    this.todoService.setTodos(this.list);
+  delCompleted = () => {
+    const newList = this.list.filter((todo) => !todo.completed);
+    console.log(newList);
+    console.log(this.list);
+    
+    this.todoService.setTodos(newList);
   };
 }

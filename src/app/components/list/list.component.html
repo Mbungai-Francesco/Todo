@@ -1,16 +1,31 @@
-<div class="border-b border-b-myDarkBlue-300 py-4 px-3 flex cursor-pointer" (click)="clickHandler()">
-  <div>
-    @if(checked){
-      <div class="w-6 aspect-square border rounded-full mr-4 dark:border-myDarkBlue-300 border-myDarkBlue-500 flex justify-center items-center myCheck">
+<div
+  class="border-b border-b-myDarkBlue-300 py-4 px-3 flex cursor-pointer justify-between items-center"
+>
+  <div class="flex flex-grow" (click)="clickHandler()">
+    <div>
+      @if(checked){
+      <div
+        class="w-6 aspect-square border rounded-full mr-4 dark:border-myDarkBlue-300 border-myDarkBlue-500 flex justify-center items-center myCheck"
+      >
         <lucide-icon [name]="icons.Check" color="white" size="13"></lucide-icon>
       </div>
-    }@else {
-      <div class="w-6 aspect-square border rounded-full mr-4 dark:opacity-25"></div>
+      }@else {
+      <div
+        class="w-6 aspect-square border rounded-full mr-4 dark:opacity-25"
+      ></div>
+      }
+    </div>
+    @if(checked){
+    <p class="text-lg text-myDarkBlue-300 font-semibold line-through">
+      {{ list }}
+    </p>
+    }@else{
+    <p class="text-lg text-myDarkBlue-300 font-semibold">
+      {{ list }}
+    </p>
     }
   </div>
-  @if(checked){
-    <p class="text-lg text-myDarkBlue-300 font-semibold line-through">{{todos[this.num].name}}</p>
-  }@else{
-    <p class="text-lg text-myDarkBlue-300 font-semibold">{{todos[this.num].name}}</p>
-  }
+  <div class="flex" (click)="delTodo()">
+    <lucide-icon [name]="icons.Trash2" class="text-myDarkBlue-300 ml-2"></lucide-icon>
+  </div>
 </div>
